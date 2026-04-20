@@ -3,7 +3,7 @@ import { Badge } from '@ui/index';
 import { useAutosave } from '@foundation/hooks/use-autosave';
 import { useApi } from '@foundation/providers/ApiProvider';
 import { formatDuration } from '@foundation/lib/format';
-import { statusToBadgeKey } from '@foundation/types';
+import { describePlayableAsset, getMediaAsset, statusToBadgeKey } from '@foundation/types';
 import type { AnnotationTask, AnnotationPayload, TaskStatusType } from '@foundation/types';
 import { AnnotationForm } from './AnnotationForm';
 import '../annotation.css';
@@ -62,8 +62,10 @@ export function AnnotationWorkbench({
     );
   }
 
-  const mediaUrl = api.getMediaStreamUrl(task.media_id);
+  const mediaUrl = task.media?.playable_asset_url ?? api.getMediaStreamUrl(task.media_id);
   const mediaType = task.media?.media_type === 'video' ? 'video' : 'audio';
+  const playableAsset = getMediaAsset(task.media, 'playable');
+  const posterAsset = getMediaAsset(task.media, 'poster');
 
   return (
     <div className="workbench">
@@ -76,15 +78,25 @@ export function AnnotationWorkbench({
               <div className="workbench__info-meta">
                 {mediaType} · {formatDuration(task.media?.duration_ms ?? null)}
               </div>
+              <div className="workbench__info-meta">
+                Playback: {describePlayableAsset(task.media)}
+              </div>
             </div>
             <Badge status={statusToBadgeKey(task.status as TaskStatusType)} />
           </div>
+          {posterAsset && task.media?.poster_url && (
+            <img
+              src={task.media.poster_url}
+              alt={`${task.media_id} poster`}
+              className="workbench__poster"
+            />
+          )}
           <div style={{ marginTop: 'var(--space-md)' }}>
             <MediaPlayer
               id="workbench-player"
               src={mediaUrl}
               type={mediaType}
-              label={task.media?.source_path}
+              label={playableAsset ? playableAsset.path : task.media?.source_path}
             />
           </div>
         </Card>

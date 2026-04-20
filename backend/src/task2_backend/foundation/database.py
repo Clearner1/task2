@@ -21,6 +21,22 @@ CREATE TABLE IF NOT EXISTS media_files (
     updated_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS media_assets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    media_id TEXT NOT NULL,
+    asset_kind TEXT NOT NULL,
+    path TEXT NOT NULL,
+    format TEXT NOT NULL,
+    sample_rate INTEGER,
+    channels INTEGER,
+    width INTEGER,
+    height INTEGER,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    UNIQUE(media_id, asset_kind),
+    FOREIGN KEY(media_id) REFERENCES media_files(media_id)
+);
+
 CREATE TABLE IF NOT EXISTS annotation_tasks (
     task_id TEXT PRIMARY KEY,
     media_id TEXT NOT NULL UNIQUE,

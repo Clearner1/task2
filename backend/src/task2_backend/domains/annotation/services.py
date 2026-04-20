@@ -10,6 +10,7 @@ from task2_backend.domains.annotation.schemas import (
     AnnotationPayload,
     AnnotationView,
     TaskDetail,
+    TaskMediaAssetItem,
     TaskMediaItem,
     TaskItem,
     TaskListResponse,
@@ -65,6 +66,7 @@ class AnnotationService:
         row = self.repository.get_task_media_row(task_id)
         if row is None:
             raise NotFoundError(f"Task not found: {task_id}", entity_id=task_id)
+        asset_rows = self.repository.list_media_assets(row["media_id"])
         latest_draft_row = self.repository.get_latest_annotation(task_id, is_draft=True)
         latest_annotation_row = self.repository.get_latest_annotation(task_id)
         latest_draft = self._build_annotation_view(latest_draft_row) if latest_draft_row else None
@@ -72,6 +74,10 @@ class AnnotationService:
         compat_latest_draft = latest_draft or latest_annotation
         if row["status"] in {"SUBMITTED", "REVIEWED", "EXPORTED"}:
             compat_latest_draft = latest_annotation
+        assets = [self._build_media_asset_item(row["media_id"], asset_row) for asset_row in asset_rows]
+        playable_asset = next((asset for asset in assets if asset.asset_kind == "playable"), None)
+        waveform_asset = next((asset for asset in assets if asset.asset_kind == "waveform"), None)
+        poster_asset = next((asset for asset in assets if asset.asset_kind == "poster"), None)
         return TaskDetail(
             task=TaskItem(
                 task_id=row["task_id"],
@@ -94,6 +100,10 @@ class AnnotationService:
                 status=row["media_status"],
                 failure_reason=row["failure_reason"],
                 stream_url=f"/api/media/{row['media_id']}/stream",
+                playable_asset_url=playable_asset.url if playable_asset else None,
+                waveform_url=waveform_asset.url if waveform_asset else None,
+                poster_url=poster_asset.url if poster_asset else None,
+                assets=assets,
                 created_at=row["media_created_at"],
                 updated_at=row["media_updated_at"],
             ),
@@ -192,6 +202,26 @@ class AnnotationService:
             ),
             is_draft=bool(row["is_draft"]),
             version=row["version"],
+            created_at=row["created_at"],
+            updated_at=row["updated_at"],
+        )
+
+    @staticmethod
+    def _build_media_asset_item(media_id: str, row) -> TaskMediaAssetItem:
+        url_map = {
+            "playable": f"/api/media/{media_id}/stream",
+            "waveform": f"/api/media/{media_id}/waveform",
+            "poster": f"/api/media/{media_id}/poster",
+        }
+        return TaskMediaAssetItem(
+            asset_kind=row["asset_kind"],
+            path=row["path"],
+            format=row["format"],
+            sample_rate=row["sample_rate"],
+            channels=row["channels"],
+            width=row["width"],
+            height=row["height"],
+            url=url_map.get(row["asset_kind"], ""),
             created_at=row["created_at"],
             updated_at=row["updated_at"],
         )

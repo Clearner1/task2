@@ -7,6 +7,7 @@ This document defines the first implementation contract for HTTP APIs and export
 ## Core Resources
 
 - `media`
+- `media_assets`
 - `annotation_tasks`
 - `annotations`
 - `reviews`
@@ -74,9 +75,13 @@ Rules:
 - `GET /api/media/{media_id}`
   - returns stored media metadata and processing state
 - `GET /api/media/{media_id}/stream`
-  - returns the playable source stream or normalized playable asset
+  - returns the normalized playable asset when available, otherwise the source stream
   - supports frontend audio and video playback
   - if byte-range support is implemented, backend should honor range requests for browser media controls
+- `GET /api/media/{media_id}/poster`
+  - returns the generated poster asset when present
+- `GET /api/media/{media_id}/waveform`
+  - returns waveform JSON when present
 
 ### Annotation Tasks
 
@@ -150,6 +155,62 @@ Rules:
 - `latest_annotation` is the latest persisted annotation for the task, regardless of draft or final state
 - `latest_draft` is kept for backward compatibility with current frontend consumers
 - after final submit, clients should prefer `latest_annotation`
+
+## Media Contract
+
+`GET /api/media` and `GET /api/media/{media_id}` return media items with normalized asset metadata.
+
+Asset kinds:
+
+- `playable`
+- `waveform`
+- `poster`
+
+Example shape:
+
+```json
+{
+  "media_id": "1226-141268-0001",
+  "source_path": "task2/media/1226-141268-0001.mp3",
+  "media_type": "audio",
+  "detected_format": "mp3",
+  "duration_ms": 14670,
+  "status": "PREPROCESSED",
+  "stream_url": "/api/media/1226-141268-0001/stream",
+  "playable_asset_url": "/api/media/1226-141268-0001/stream",
+  "poster_url": null,
+  "waveform_url": "/api/media/1226-141268-0001/waveform",
+  "assets": [
+    {
+      "asset_kind": "playable",
+      "path": "task2/workspace/normalized/1226-141268-0001/playable.wav",
+      "format": "wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "width": null,
+      "height": null,
+      "url": "/api/media/1226-141268-0001/stream"
+    },
+    {
+      "asset_kind": "waveform",
+      "path": "task2/workspace/normalized/1226-141268-0001/waveform.json",
+      "format": "json",
+      "sample_rate": 16000,
+      "channels": 1,
+      "width": null,
+      "height": null,
+      "url": "/api/media/1226-141268-0001/waveform"
+    }
+  ]
+}
+```
+
+Rules:
+
+- `stream_url` and `playable_asset_url` point to the normalized playable asset when one exists
+- `waveform_url` is present only for generated audio waveform data
+- `poster_url` is present only for generated video poster frames
+- asset paths are deterministic for a given `media_id`
 
 ## Export Contract
 

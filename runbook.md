@@ -8,7 +8,7 @@ The system must run without manual intervention for at least 24 hours while main
 
 1. scan configured input directories
 2. register new media idempotently
-3. preprocess media and persist results
+3. preprocess media, generate normalized assets, and persist results
 4. expose ready tasks to annotators
 5. heartbeat active task leases and autosave dirty annotations
 6. review completed annotations
@@ -23,6 +23,7 @@ The unattended runtime depends on a background maintenance loop. When `runtime.w
 - every retryable failure increments a persisted retry counter
 - every terminal failure writes a durable error record
 - every long-running step logs start, success, retry, and failure events
+- normalized asset generation writes deterministic output paths under the media workspace
 
 ## Retry Handling
 
@@ -76,6 +77,7 @@ Each cycle must do the following in order:
 - retryable failures are stored with job name, entity id, retry count, next retry time, and last error details
 - successful replay marks the record resolved instead of deleting operational history
 - exhausted failures become terminal and remain visible to ops status endpoints
+- media normalization failures replay against the same deterministic output paths instead of producing new filenames
 
 ## Minimum Observability
 

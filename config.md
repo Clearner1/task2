@@ -47,6 +47,8 @@ The resolved configuration must be validated once during application startup.
 - `media.supported_video_extensions`
 - `media.target_audio_format`
 - `media.target_audio_sample_rate`
+- `media.target_audio_channels`
+- `media.target_video_format`
 - `media.extract_waveform`
 - `media.extract_video_poster`
 
@@ -101,6 +103,8 @@ media:
   supported_video_extensions: [.mp4, .mov, .mkv]
   target_audio_format: wav
   target_audio_sample_rate: 16000
+  target_audio_channels: 1
+  target_video_format: mp4
   extract_waveform: true
   extract_video_poster: true
 

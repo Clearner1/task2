@@ -44,6 +44,7 @@ dist-ssr/
 # Runtime artifacts
 logs/
 exports/
+workspace/
 
 # OS generated files
 .DS_Store

@@ -28,7 +28,7 @@ export function MediaPage() {
   const handlePreprocess = async () => {
     const result = await preprocessMedia();
     if (result) {
-      addToast('success', `Preprocessed ${result.processed} files (${result.failed} failed)`);
+      addToast('success', `Generated normalized assets for ${result.processed} files (${result.failed} failed)`);
       fetch({ page, page_size: pageSize });
     }
   };
@@ -37,7 +37,7 @@ export function MediaPage() {
     <div className="animate-fade-in">
       <div className="page-header">
         <h2>Media</h2>
-        <p>Import, preprocess, and manage audio/video files</p>
+        <p>Import, normalize, and inspect audio/video assets for annotation playback</p>
       </div>
 
       <ImportPanel

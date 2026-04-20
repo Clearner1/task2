@@ -45,6 +45,8 @@ class MediaConfig:
     supported_video_extensions: tuple[str, ...]
     target_audio_format: str
     target_audio_sample_rate: int
+    target_audio_channels: int
+    target_video_format: str
     extract_waveform: bool
     extract_video_poster: bool
 
@@ -140,6 +142,8 @@ def load_config(config_path: str | None = None) -> AppConfig:
             supported_video_extensions=tuple(str(item).lower() for item in _require(media, "supported_video_extensions")),
             target_audio_format=str(_require(media, "target_audio_format")),
             target_audio_sample_rate=int(_require(media, "target_audio_sample_rate")),
+            target_audio_channels=int(_require(media, "target_audio_channels")),
+            target_video_format=str(_require(media, "target_video_format")),
             extract_waveform=bool(_require(media, "extract_waveform")),
             extract_video_poster=bool(_require(media, "extract_video_poster")),
         ),

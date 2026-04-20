@@ -55,6 +55,19 @@ class TaskItem(BaseModel):
     updated_at: str
 
 
+class TaskMediaAssetItem(BaseModel):
+    asset_kind: str
+    path: str
+    format: str
+    sample_rate: int | None = None
+    channels: int | None = None
+    width: int | None = None
+    height: int | None = None
+    url: str
+    created_at: str
+    updated_at: str
+
+
 class TaskMediaItem(BaseModel):
     media_id: str
     source_path: str
@@ -64,6 +77,10 @@ class TaskMediaItem(BaseModel):
     status: TaskStatus
     failure_reason: str | None = None
     stream_url: str
+    playable_asset_url: str | None = None
+    waveform_url: str | None = None
+    poster_url: str | None = None
+    assets: list[TaskMediaAssetItem] = Field(default_factory=list)
     created_at: str
     updated_at: str
 

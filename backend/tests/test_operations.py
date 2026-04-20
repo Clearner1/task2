@@ -47,6 +47,8 @@ def _write_test_config(tmp_path: Path, media_dir: Path) -> Path:
             "supported_video_extensions": [".mp4", ".mov", ".mkv"],
             "target_audio_format": "wav",
             "target_audio_sample_rate": 16000,
+            "target_audio_channels": 1,
+            "target_video_format": "mp4",
             "extract_waveform": False,
             "extract_video_poster": False,
         },
