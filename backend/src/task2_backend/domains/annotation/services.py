@@ -154,6 +154,10 @@ class AnnotationService:
         self.repository.release_task(task_id, annotator_id, isoformat(now_utc()))
         return self.get_task_detail(task_id)
 
+    def reclaim_expired_locks(self) -> int:
+        reclaimed = self.repository.reclaim_expired_tasks(isoformat(now_utc()))
+        return len(reclaimed)
+
     def _validate_annotation(self, annotation: AnnotationPayload) -> dict[str, object]:
         payload = annotation.model_dump()
         if payload["primary_emotion"] not in self.config.annotation.allowed_primary_labels:

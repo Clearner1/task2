@@ -29,7 +29,8 @@ paths:
   temp_dir: ./workspace/tmp
 runtime:
   mode: test
-  worker_enabled: true
+  worker_enabled: false
+  maintenance_interval_seconds: 30
   max_concurrent_jobs: 1
   shutdown_grace_seconds: 5
 annotation:

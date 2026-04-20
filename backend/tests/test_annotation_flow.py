@@ -25,7 +25,8 @@ def _write_test_config(tmp_path: Path, media_dir: Path) -> Path:
         },
         "runtime": {
             "mode": "test",
-            "worker_enabled": True,
+            "worker_enabled": False,
+            "maintenance_interval_seconds": 30,
             "max_concurrent_jobs": 1,
             "shutdown_grace_seconds": 5,
         },

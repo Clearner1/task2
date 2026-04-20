@@ -76,7 +76,7 @@ task2/
 |---|---|---|---|
 | L3 | `backend/src/task2_backend/api` | HTTP routes, request mapping, response mapping | `domains`, `foundation`, `common` |
 | L2 | `backend/src/task2_backend/domains/<name>` | domain models, repository contracts, services, DTOs | same domain, `foundation`, `common` |
-| L1 | `backend/src/task2_backend/foundation` | config loading, db session, media adapters, retry helpers, logging | `common` |
+| L1 | `backend/src/task2_backend/foundation` | config loading, db session, media adapters, retry helpers, logging, maintenance runner, ops persistence | `common` |
 | L0 | `backend/src/task2_backend/common` | pure types, constants, exceptions, value helpers | no higher-layer imports |
 
 - API routes may not contain business rules.
@@ -168,6 +168,8 @@ Backend configuration must include at least:
 - database path
 - log directory
 - run mode
+- maintenance enabled flag
+- maintenance interval seconds
 - retry max attempts
 - retry base delay
 - retry max delay
@@ -201,6 +203,7 @@ Required categories:
 - task lock acquisition failure
 - annotation validation failure
 - export write failure
+- maintenance execution failure
 - configuration validation failure
 
 Rules:
@@ -234,6 +237,18 @@ Default retry policy:
 - max delay: `10s`
 - every retry attempt must be logged with operation name, entity id, and attempt number
 
+### `durable-retry-queue`
+
+Retry exhaustion in a request or maintenance pass does not end the recovery story. The system must persist retryable work for later replay.
+
+Required rules:
+
+- retryable failures are written to a durable job-failure table
+- each failure record stores job name, entity id, retry count, max attempts, next retry time, last error code, and last error message
+- replayable work may also store serialized payload needed for a future retry
+- successful replay resolves the failure record instead of leaving stale rows behind
+- terminally exhausted work stays queryable as a failed record and is never retried indefinitely
+
 ## Persistence Boundaries
 
 ### `task-lifecycle`
@@ -263,6 +278,7 @@ Required persisted entities:
 - export batches
 - audit log events
 - background job failure records
+- maintenance run records
 
 ## Idempotency And Recovery
 
@@ -284,6 +300,14 @@ To support 24-hour unattended operation, the implementation must provide:
 - resumable background jobs
 - health metrics for queue depth, task counts by status, and failure counts
 - graceful restart behavior based on persisted state
+- a background maintenance loop that runs on a fixed interval when enabled
+
+The background maintenance loop is part of the runtime contract, not an optional debugging helper. It is responsible for:
+
+- reclaiming expired annotation task locks
+- replaying due retryable jobs from durable storage
+- recording a durable maintenance-run row for each cycle
+- emitting operational logs for start, finish, failure, and replay activity
 
 Task lock policy:
 
@@ -301,6 +325,36 @@ Task lock policy:
 - heartbeat extends active task locks without creating extra draft rows
 - release clears lock ownership and returns the task to `READY`
 - timeout expiration triggers lock recovery, audit logging, and task requeue or recovery handling
+
+### `maintenance-loop-contract`
+
+The maintenance loop belongs to `foundation` as generic runtime infrastructure. It must not import domain modules directly. Domain behavior is injected from `main.py` as callbacks or narrow service functions.
+
+Rules:
+
+- `main.py` wires domain handlers into the maintenance runner during app startup
+- the maintenance runner may call injected callbacks for:
+  - expired lock recovery
+  - media preprocess retry replay
+  - export retry replay
+- the maintenance runner must support start, stop, and one-cycle execution for testability
+- startup creates the runner only when `runtime.worker_enabled` is `true`
+- shutdown must stop the runner within the configured grace period
+
+### `ops-observability`
+
+The first operational API surface is read-only and belongs to `api`.
+
+Required output categories:
+
+- media counts by status
+- task counts by status
+- total pending retry jobs
+- total terminal failure jobs
+- current stale lock count
+- last maintenance run status and timestamp
+
+The first implementation exposes these through a dedicated ops endpoint. API routes remain thin: they query a lower-layer operational status service and do not compute business metrics inline.
 
 ## Testing Strategy
 

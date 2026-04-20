@@ -5,8 +5,10 @@ import logging
 
 from task2_backend.common.time import isoformat, now_utc
 from task2_backend.domains.media.repository import MediaRepository
+from task2_backend.domains.media.models import MediaRecord
 from task2_backend.domains.media.schemas import MediaImportResponse, MediaItem, MediaListResponse, MediaPreprocessResponse
 from task2_backend.foundation.config import AppConfig
+from task2_backend.foundation.operations import OperationsService
 from task2_backend.foundation.media_probe import probe_media
 from task2_backend.foundation.retry import run_with_retry
 
@@ -18,9 +20,11 @@ class MediaService:
         self,
         config: AppConfig,
         repository: MediaRepository,
+        operations_service: OperationsService | None = None,
     ):
         self.config = config
         self.repository = repository
+        self.operations_service = operations_service
 
     def import_media(self) -> MediaImportResponse:
         imported = 0
@@ -42,30 +46,54 @@ class MediaService:
         failed = 0
         for record in self.repository.list_pending_preprocess():
             try:
-                probe = run_with_retry(
-                    "probe_media",
-                    record.media_id,
-                    self.config.retry,
-                    lambda record=record: probe_media(
-                        record.source_path,
-                        self.config.media.supported_audio_extensions,
-                        self.config.media.supported_video_extensions,
-                    ),
-                )
-                updated_at = isoformat(now_utc())
-                self.repository.mark_preprocessed(
-                    record.media_id,
-                    probe.media_type,
-                    probe.detected_format,
-                    probe.duration_ms,
-                    updated_at,
-                )
+                self._preprocess_record(record)
                 processed += 1
             except Exception as exc:
                 logger.exception("Failed to preprocess media_id=%s", record.media_id)
-                self.repository.mark_failed(record.media_id, str(exc), isoformat(now_utc()))
+                now_iso = isoformat(now_utc())
+                self.repository.mark_failed(record.media_id, str(exc), now_iso)
+                if self.operations_service is not None:
+                    self.operations_service.record_job_failure(
+                        "media_preprocess",
+                        record.media_id,
+                        exc,
+                        payload={"media_id": record.media_id},
+                        occurred_at=now_iso,
+                    )
                 failed += 1
         return MediaPreprocessResponse(processed=processed, failed=failed)
+
+    def replay_preprocess_failure(self, media_id: str) -> None:
+        record = self.repository.get_media(media_id)
+        if record is None:
+            raise ValueError(f"Media not found: {media_id}")
+        if record.status.value == "PREPROCESSED":
+            if self.operations_service is not None:
+                self.operations_service.resolve_job_failure("media_preprocess", media_id)
+            return
+        self._preprocess_record(record)
+
+    def _preprocess_record(self, record: MediaRecord) -> None:
+        probe = run_with_retry(
+            "probe_media",
+            record.media_id,
+            self.config.retry,
+            lambda record=record: probe_media(
+                record.source_path,
+                self.config.media.supported_audio_extensions,
+                self.config.media.supported_video_extensions,
+            ),
+        )
+        updated_at = isoformat(now_utc())
+        self.repository.mark_preprocessed(
+            record.media_id,
+            probe.media_type,
+            probe.detected_format,
+            probe.duration_ms,
+            updated_at,
+        )
+        if self.operations_service is not None:
+            self.operations_service.resolve_job_failure("media_preprocess", record.media_id, resolved_at=updated_at)
 
     def list_media(self, page: int, page_size: int, status: str | None) -> MediaListResponse:
         items, total = self.repository.list_media(page, page_size, status)

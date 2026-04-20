@@ -24,6 +24,7 @@ class PathsConfig:
 class RuntimeConfig:
     mode: str
     worker_enabled: bool
+    maintenance_interval_seconds: int
     max_concurrent_jobs: int
     shutdown_grace_seconds: int
 
@@ -122,6 +123,7 @@ def load_config(config_path: str | None = None) -> AppConfig:
         runtime=RuntimeConfig(
             mode=str(_require(runtime, "mode")),
             worker_enabled=bool(_require(runtime, "worker_enabled")),
+            maintenance_interval_seconds=int(_require(runtime, "maintenance_interval_seconds")),
             max_concurrent_jobs=int(_require(runtime, "max_concurrent_jobs")),
             shutdown_grace_seconds=int(_require(runtime, "shutdown_grace_seconds")),
         ),

@@ -82,6 +82,7 @@
 - simulate database lock contention and confirm bounded retry
 - simulate autosave heartbeat extending a task lock
 - simulate stale lock expiry and task recovery
+- simulate maintenance loop replaying a persisted retryable failure
 - simulate service restart and confirm unfinished work resumes from persisted state
 - simulate export rerun and confirm versioned or reused batch semantics
 

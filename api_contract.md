@@ -105,6 +105,12 @@ Rules:
 - `GET /api/exports/{batch_id}`
   - returns export batch metadata and output locations
 
+### Operations
+
+- `GET /api/ops/status`
+  - returns operational counters and last maintenance-run state
+  - includes task counts, media counts, pending retry jobs, terminal failures, and stale lock count
+
 ## Annotation Payload
 
 ```json
