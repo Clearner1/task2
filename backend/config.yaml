@@ -41,6 +41,8 @@ media:
     - .mkv
   target_audio_format: wav
   target_audio_sample_rate: 16000
+  target_audio_channels: 1
+  target_video_format: mp4
   extract_waveform: true
   extract_video_poster: true
 

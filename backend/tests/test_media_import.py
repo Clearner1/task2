@@ -45,6 +45,8 @@ media:
   supported_video_extensions: [.mp4]
   target_audio_format: wav
   target_audio_sample_rate: 16000
+  target_audio_channels: 1
+  target_video_format: mp4
   extract_waveform: false
   extract_video_poster: false
 retry:

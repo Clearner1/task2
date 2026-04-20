@@ -1,6 +1,7 @@
 import type { ApiAdapter } from './types';
 import type {
   MediaRecord,
+  MediaAssetRecord,
   AnnotationTask,
   AnnotationPayload,
   PaginatedResponse,
@@ -10,17 +11,48 @@ import { TaskStatus } from '../types';
 
 /* =============== Mock Data =============== */
 
+function buildMockAssets(mediaId: string, status: string): MediaAssetRecord[] {
+  if (status === TaskStatus.IMPORTED) return [];
+  const base = `/api/media/${mediaId}`;
+  return [
+    {
+      asset_kind: 'playable',
+      path: `task2/workspace/normalized/${mediaId}/playable.wav`,
+      format: 'wav',
+      sample_rate: 16000,
+      channels: 1,
+      width: null,
+      height: null,
+      url: `${base}/stream`,
+      created_at: '2026-04-20T10:05:00+08:00',
+      updated_at: '2026-04-20T10:05:00+08:00',
+    },
+    {
+      asset_kind: 'waveform',
+      path: `task2/workspace/normalized/${mediaId}/waveform.json`,
+      format: 'json',
+      sample_rate: 16000,
+      channels: 1,
+      width: null,
+      height: null,
+      url: `${base}/waveform`,
+      created_at: '2026-04-20T10:05:00+08:00',
+      updated_at: '2026-04-20T10:05:00+08:00',
+    },
+  ];
+}
+
 const MOCK_MEDIA: MediaRecord[] = [
-  { media_id: '1226-141268-0001', source_path: 'task2/media/1226-141268-0001.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 14670, status: TaskStatus.READY, failure_reason: null, stream_url: '/api/media/1226-141268-0001/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:05:00+08:00' },
-  { media_id: '1250-135777-0085', source_path: 'task2/media/1250-135777-0085.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 4500, status: TaskStatus.READY, failure_reason: null, stream_url: '/api/media/1250-135777-0085/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:05:00+08:00' },
-  { media_id: '13069-13511-000007', source_path: 'task2/media/13069-13511-000007.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 12800, status: TaskStatus.IMPORTED, failure_reason: null, stream_url: '/api/media/13069-13511-000007/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:00:00+08:00' },
-  { media_id: '1603-141713-0017', source_path: 'task2/media/1603-141713-0017.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 9800, status: TaskStatus.PREPROCESSED, failure_reason: null, stream_url: '/api/media/1603-141713-0017/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:03:00+08:00' },
-  { media_id: '1756-134819-0020', source_path: 'task2/media/1756-134819-0020.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 16700, status: TaskStatus.SUBMITTED, failure_reason: null, stream_url: '/api/media/1756-134819-0020/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T12:00:00+08:00' },
-  { media_id: '2494-156014-0003', source_path: 'task2/media/2494-156014-0003.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 5200, status: TaskStatus.REVIEWED, failure_reason: null, stream_url: '/api/media/2494-156014-0003/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T13:00:00+08:00' },
-  { media_id: '2581-157858-0019', source_path: 'task2/media/2581-157858-0019.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 18800, status: TaskStatus.IN_PROGRESS, failure_reason: null, stream_url: '/api/media/2581-157858-0019/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T11:30:00+08:00' },
-  { media_id: '3557-8342-0007', source_path: 'task2/media/3557-8342-0007.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 2280, status: TaskStatus.READY, failure_reason: null, stream_url: '/api/media/3557-8342-0007/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:05:00+08:00' },
-  { media_id: '3982-178459-0065', source_path: 'task2/media/3982-178459-0065.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 15700, status: TaskStatus.EXPORTED, failure_reason: null, stream_url: '/api/media/3982-178459-0065/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T15:00:00+08:00' },
-  { media_id: '8531-282933-0044', source_path: 'task2/media/8531-282933-0044.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 17200, status: TaskStatus.READY, failure_reason: null, stream_url: '/api/media/8531-282933-0044/stream', created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:05:00+08:00' },
+  { media_id: '1226-141268-0001', source_path: 'task2/media/1226-141268-0001.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 14670, status: TaskStatus.READY, failure_reason: null, stream_url: '/api/media/1226-141268-0001/stream', playable_asset_url: '/api/media/1226-141268-0001/stream', waveform_url: '/api/media/1226-141268-0001/waveform', poster_url: null, assets: buildMockAssets('1226-141268-0001', TaskStatus.READY), created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:05:00+08:00' },
+  { media_id: '1250-135777-0085', source_path: 'task2/media/1250-135777-0085.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 4500, status: TaskStatus.READY, failure_reason: null, stream_url: '/api/media/1250-135777-0085/stream', playable_asset_url: '/api/media/1250-135777-0085/stream', waveform_url: '/api/media/1250-135777-0085/waveform', poster_url: null, assets: buildMockAssets('1250-135777-0085', TaskStatus.READY), created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:05:00+08:00' },
+  { media_id: '13069-13511-000007', source_path: 'task2/media/13069-13511-000007.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 12800, status: TaskStatus.IMPORTED, failure_reason: null, stream_url: '/api/media/13069-13511-000007/stream', playable_asset_url: null, waveform_url: null, poster_url: null, assets: [], created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:00:00+08:00' },
+  { media_id: '1603-141713-0017', source_path: 'task2/media/1603-141713-0017.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 9800, status: TaskStatus.PREPROCESSED, failure_reason: null, stream_url: '/api/media/1603-141713-0017/stream', playable_asset_url: '/api/media/1603-141713-0017/stream', waveform_url: '/api/media/1603-141713-0017/waveform', poster_url: null, assets: buildMockAssets('1603-141713-0017', TaskStatus.PREPROCESSED), created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:03:00+08:00' },
+  { media_id: '1756-134819-0020', source_path: 'task2/media/1756-134819-0020.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 16700, status: TaskStatus.SUBMITTED, failure_reason: null, stream_url: '/api/media/1756-134819-0020/stream', playable_asset_url: '/api/media/1756-134819-0020/stream', waveform_url: '/api/media/1756-134819-0020/waveform', poster_url: null, assets: buildMockAssets('1756-134819-0020', TaskStatus.SUBMITTED), created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T12:00:00+08:00' },
+  { media_id: '2494-156014-0003', source_path: 'task2/media/2494-156014-0003.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 5200, status: TaskStatus.REVIEWED, failure_reason: null, stream_url: '/api/media/2494-156014-0003/stream', playable_asset_url: '/api/media/2494-156014-0003/stream', waveform_url: '/api/media/2494-156014-0003/waveform', poster_url: null, assets: buildMockAssets('2494-156014-0003', TaskStatus.REVIEWED), created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T13:00:00+08:00' },
+  { media_id: '2581-157858-0019', source_path: 'task2/media/2581-157858-0019.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 18800, status: TaskStatus.IN_PROGRESS, failure_reason: null, stream_url: '/api/media/2581-157858-0019/stream', playable_asset_url: '/api/media/2581-157858-0019/stream', waveform_url: '/api/media/2581-157858-0019/waveform', poster_url: null, assets: buildMockAssets('2581-157858-0019', TaskStatus.IN_PROGRESS), created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T11:30:00+08:00' },
+  { media_id: '3557-8342-0007', source_path: 'task2/media/3557-8342-0007.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 2280, status: TaskStatus.READY, failure_reason: null, stream_url: '/api/media/3557-8342-0007/stream', playable_asset_url: '/api/media/3557-8342-0007/stream', waveform_url: '/api/media/3557-8342-0007/waveform', poster_url: null, assets: buildMockAssets('3557-8342-0007', TaskStatus.READY), created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:05:00+08:00' },
+  { media_id: '3982-178459-0065', source_path: 'task2/media/3982-178459-0065.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 15700, status: TaskStatus.EXPORTED, failure_reason: null, stream_url: '/api/media/3982-178459-0065/stream', playable_asset_url: '/api/media/3982-178459-0065/stream', waveform_url: '/api/media/3982-178459-0065/waveform', poster_url: null, assets: buildMockAssets('3982-178459-0065', TaskStatus.EXPORTED), created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T15:00:00+08:00' },
+  { media_id: '8531-282933-0044', source_path: 'task2/media/8531-282933-0044.mp3', media_type: 'audio', detected_format: 'mp3', duration_ms: 17200, status: TaskStatus.READY, failure_reason: null, stream_url: '/api/media/8531-282933-0044/stream', playable_asset_url: '/api/media/8531-282933-0044/stream', waveform_url: '/api/media/8531-282933-0044/waveform', poster_url: null, assets: buildMockAssets('8531-282933-0044', TaskStatus.READY), created_at: '2026-04-20T10:00:00+08:00', updated_at: '2026-04-20T10:05:00+08:00' },
 ];
 
 let taskIdCounter = 1;
@@ -97,6 +129,9 @@ export function createMockAdapter(): ApiAdapter {
       media.forEach((m) => {
         if (m.status === TaskStatus.IMPORTED) {
           m.status = TaskStatus.PREPROCESSED;
+          m.assets = buildMockAssets(m.media_id, TaskStatus.PREPROCESSED);
+          m.playable_asset_url = `/api/media/${m.media_id}/stream`;
+          m.waveform_url = `/api/media/${m.media_id}/waveform`;
           count++;
         }
       });

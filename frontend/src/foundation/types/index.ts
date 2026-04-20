@@ -30,6 +30,19 @@ export function statusToBadgeKey(
 /* ========== Backend-aligned types ========== */
 
 /** MediaItem from GET /api/media and GET /api/media/{id} */
+export interface MediaAssetRecord {
+  asset_kind: 'playable' | 'waveform' | 'poster' | string;
+  path: string;
+  format: string;
+  sample_rate: number | null;
+  channels: number | null;
+  width: number | null;
+  height: number | null;
+  url: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface MediaRecord {
   media_id: string;
   source_path: string;
@@ -39,6 +52,10 @@ export interface MediaRecord {
   status: TaskStatusType;
   failure_reason: string | null;
   stream_url: string;
+  playable_asset_url: string | null;
+  waveform_url: string | null;
+  poster_url: string | null;
+  assets: MediaAssetRecord[];
   created_at: string;
   updated_at: string;
 }
@@ -115,6 +132,23 @@ export function flattenTaskDetail(detail: TaskDetail): AnnotationTask {
     media: detail.media,
     draft: detail.latest_annotation?.annotation ?? detail.latest_draft?.annotation ?? null,
   };
+}
+
+export function getMediaAsset(
+  media: Pick<MediaRecord, 'assets'> | undefined,
+  assetKind: 'playable' | 'waveform' | 'poster',
+): MediaAssetRecord | null {
+  if (!media) return null;
+  return media.assets.find((asset) => asset.asset_kind === assetKind) ?? null;
+}
+
+export function describePlayableAsset(media: Pick<MediaRecord, 'assets'> | undefined): string {
+  const playable = getMediaAsset(media, 'playable');
+  if (!playable) return 'source stream';
+  const parts = [playable.format.toUpperCase()];
+  if (playable.sample_rate) parts.push(`${playable.sample_rate} Hz`);
+  if (playable.channels) parts.push(`${playable.channels} ch`);
+  return parts.join(' · ');
 }
 
 /** ReviewDecision — maps to backend ReviewRequest/ReviewResponse */

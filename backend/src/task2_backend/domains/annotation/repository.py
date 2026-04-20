@@ -333,6 +333,18 @@ class AnnotationRepository:
                 [task_id],
             ).fetchone()
 
+    def list_media_assets(self, media_id: str) -> list[sqlite3.Row]:
+        with self.database.connect() as connection:
+            return connection.execute(
+                """
+                SELECT *
+                FROM media_assets
+                WHERE media_id = ?
+                ORDER BY asset_kind ASC, created_at ASC
+                """,
+                [media_id],
+            ).fetchall()
+
     @staticmethod
     def _from_row(row: sqlite3.Row) -> TaskRecord:
         return TaskRecord(
