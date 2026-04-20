@@ -2,42 +2,43 @@
 
 /* --- CSS Custom Properties (Design Tokens) --- */
 :root {
-  /* Surface palette – dark slate */
-  --color-bg-primary: #0f1117;
-  --color-bg-secondary: #161922;
-  --color-bg-elevated: #1c2030;
-  --color-bg-glass: rgba(28, 32, 48, 0.72);
+  /* Surface palette – editorial paper */
+  --color-bg-primary: #f4efe4;
+  --color-bg-secondary: #e6dcc7;
+  --color-bg-elevated: #fbf8f2;
+  --color-bg-glass: rgba(251, 248, 242, 0.86);
+  --color-bg-ink: #1c1a18;
 
-  /* Accent – indigo / violet */
-  --color-accent-500: #6366f1;
-  --color-accent-400: #818cf8;
-  --color-accent-600: #4f46e5;
-  --color-accent-glow: rgba(99, 102, 241, 0.25);
+  /* Accent – brass / copper */
+  --color-accent-500: #a55a1f;
+  --color-accent-400: #c98034;
+  --color-accent-600: #854714;
+  --color-accent-glow: rgba(169, 94, 31, 0.22);
 
   /* Semantic */
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-  --color-info: #38bdf8;
+  --color-success: #2c7a5a;
+  --color-warning: #c08b22;
+  --color-danger: #b0432c;
+  --color-info: #3f6b7d;
 
   /* Text */
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #94a3b8;
-  --color-text-tertiary: #64748b;
-  --color-text-inverse: #0f1117;
+  --color-text-primary: #201b17;
+  --color-text-secondary: #605549;
+  --color-text-tertiary: #8b7d6d;
+  --color-text-inverse: #f8f4ec;
 
   /* Border */
-  --color-border: rgba(148, 163, 184, 0.12);
+  --color-border: rgba(73, 56, 38, 0.12);
   --color-border-focus: var(--color-accent-400);
 
   /* Status dot colors */
-  --status-imported: #64748b;
-  --status-preprocessed: #a78bfa;
-  --status-ready: #22c55e;
-  --status-in-progress: #38bdf8;
-  --status-submitted: #f59e0b;
-  --status-reviewed: #6366f1;
-  --status-exported: #10b981;
+  --status-imported: #8b7d6d;
+  --status-preprocessed: #8b5cf6;
+  --status-ready: #2c7a5a;
+  --status-in-progress: #3f6b7d;
+  --status-submitted: #c08b22;
+  --status-reviewed: #8d5b2c;
+  --status-exported: #20644b;
 
   /* Radius */
   --radius-sm: 6px;
@@ -46,9 +47,9 @@
   --radius-full: 9999px;
 
   /* Shadow */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 10px 24px rgba(71, 51, 30, 0.07);
+  --shadow-md: 0 18px 38px rgba(71, 51, 30, 0.1);
+  --shadow-lg: 0 28px 60px rgba(71, 51, 30, 0.14);
   --shadow-glow: 0 0 20px var(--color-accent-glow);
 
   /* Spacing */
@@ -60,7 +61,9 @@
   --space-2xl: 48px;
 
   /* Typography */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family: 'Avenir Next', 'Avenir', 'Trebuchet MS', sans-serif;
+  --font-family-display: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  --font-family-mono: 'SF Mono', 'Fira Code', 'IBM Plex Mono', monospace;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.8125rem;
   --font-size-base: 0.875rem;
@@ -94,7 +97,10 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   color: var(--color-text-primary);
-  background: var(--color-bg-primary);
+  background:
+    radial-gradient(circle at top left, rgba(201, 128, 52, 0.16), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(63, 107, 125, 0.12), transparent 28%),
+    linear-gradient(180deg, #f7f3ea 0%, #f1e8d7 100%);
   line-height: 1.6;
   min-height: 100vh;
 }
@@ -112,6 +118,11 @@ a:hover {
   color: var(--color-accent-500);
 }
 
+::selection {
+  background: rgba(201, 128, 52, 0.22);
+  color: var(--color-text-primary);
+}
+
 /* --- Scrollbar --- */
 ::-webkit-scrollbar {
   width: 6px;
@@ -121,16 +132,16 @@ a:hover {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-text-tertiary);
+  background: rgba(96, 85, 73, 0.6);
   border-radius: var(--radius-full);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-secondary);
+  background: rgba(96, 85, 73, 0.85);
 }
 
 /* --- Utility: animation keyframes --- */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
