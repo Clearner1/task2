@@ -41,6 +41,10 @@ dist-ssr/
 *.db
 *.sqlite3
 
+# Runtime artifacts
+logs/
+exports/
+
 # OS generated files
 .DS_Store
 .DS_Store?
