@@ -217,6 +217,7 @@ npm run dev
 所有运行时可变项都经由配置注入，而不是硬编码在业务层。当前配置覆盖：
 
 - 输入目录、输出目录、数据库路径、日志目录
+- maintenance loop 开关与轮询间隔
 - 自动保存间隔、心跳间隔、任务锁超时
 - 媒体支持格式、目标音频格式、目标采样率
 - 重试次数、退避参数
@@ -251,6 +252,8 @@ npm run dev
 
 - 结构化日志写入 `task2/logs/`
 - 任务、标注、复核、导出状态全部持久化到 SQLite
+- 后台 maintenance loop 定时回收过期锁并重放到期失败任务
+- retryable failure 通过持久化 failure record 管理，而不是只在内存里 sleep
 - 错误映射为稳定的异常类别和 HTTP 错误码
 - 针对媒体探测、导出写入、数据库短暂锁冲突等场景提供集中式重试
 - 通过任务锁超时和显式释放机制控制任务占用
@@ -267,6 +270,7 @@ GET /api/health
 - `GET /api/tasks`
 - `GET /api/tasks/{task_id}`
 - `GET /api/exports/{batch_id}`
+- `GET /api/ops/status`
 
 ## 11. 测试与结构校验
 

@@ -28,6 +28,7 @@ The resolved configuration must be validated once during application startup.
 
 - `runtime.mode`
 - `runtime.worker_enabled`
+- `runtime.maintenance_interval_seconds`
 - `runtime.max_concurrent_jobs`
 - `runtime.shutdown_grace_seconds`
 
@@ -83,6 +84,7 @@ paths:
 runtime:
   mode: local
   worker_enabled: true
+  maintenance_interval_seconds: 30
   max_concurrent_jobs: 2
   shutdown_grace_seconds: 30
 

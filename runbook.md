@@ -15,6 +15,8 @@ The system must run without manual intervention for at least 24 hours while main
 7. export reviewed results
 8. monitor logs, failures, and stale locks
 
+The unattended runtime depends on a background maintenance loop. When `runtime.worker_enabled=true`, the backend starts a maintenance runner that wakes up every `runtime.maintenance_interval_seconds`.
+
 ## Stability Requirements
 
 - every background action writes durable state before acknowledging completion
@@ -35,9 +37,20 @@ The system must run without manual intervention for at least 24 hours while main
 
 - reload configuration
 - reopen database
-- scan for unfinished background jobs
+- scan for unfinished background jobs from durable failure records
 - reclaim expired task locks
 - resume retryable jobs that have not exceeded max attempts
+
+### Maintenance Cycle
+
+Each cycle must do the following in order:
+
+1. record a maintenance-run start row
+2. reclaim expired task locks
+3. load due retryable jobs
+4. replay each supported job through its registered handler
+5. resolve successful jobs or advance retry counters for failed jobs
+6. record the final maintenance-run result
 
 ### Stale Task Locks
 
@@ -58,6 +71,12 @@ The system must run without manual intervention for at least 24 hours while main
 - rerun only unfinished outputs
 - finalized outputs must be immutable and versioned
 
+### Durable Failure Records
+
+- retryable failures are stored with job name, entity id, retry count, next retry time, and last error details
+- successful replay marks the record resolved instead of deleting operational history
+- exhausted failures become terminal and remain visible to ops status endpoints
+
 ## Minimum Observability
 
 - structured application logs
@@ -67,6 +86,7 @@ The system must run without manual intervention for at least 24 hours while main
 - failure counts by category
 - retry counts by operation
 - stale lock count
+- last maintenance run status and timestamp
 
 ## Manual Checks
 
