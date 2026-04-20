@@ -1,0 +1,56 @@
+paths:
+  input_dir: ../media
+  normalized_dir: ../workspace/normalized
+  export_dir: ../exports
+  log_dir: ../logs
+  database_path: ../data/task2.db
+  temp_dir: ../workspace/tmp
+
+runtime:
+  mode: local
+  worker_enabled: true
+  max_concurrent_jobs: 2
+  shutdown_grace_seconds: 30
+
+annotation:
+  autosave_interval_seconds: 15
+  task_lock_timeout_seconds: 300
+  allowed_primary_labels:
+    - neutral
+    - happy
+    - sad
+    - angry
+    - fear
+    - surprise
+    - disgust
+    - other
+  enable_secondary_labels: true
+  enable_valence_arousal: true
+
+media:
+  supported_audio_extensions:
+    - .wav
+    - .mp3
+    - .flac
+    - .m4a
+  supported_video_extensions:
+    - .mp4
+    - .mov
+    - .mkv
+  target_audio_format: wav
+  target_audio_sample_rate: 16000
+  extract_waveform: true
+  extract_video_poster: true
+
+retry:
+  max_attempts: 3
+  base_delay_seconds: 1
+  max_delay_seconds: 10
+  jitter_enabled: true
+
+export:
+  formats:
+    - json
+    - jsonl
+  include_review_metadata: true
+  batch_naming_strategy: timestamp

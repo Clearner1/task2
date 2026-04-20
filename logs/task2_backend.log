@@ -1,0 +1,860 @@
+2026-04-20 20:53:57,875 ERROR task2_backend.domains.media.services Failed to preprocess media_id=1226-141268-0001
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:53:57,884 ERROR task2_backend.domains.media.services Failed to preprocess media_id=1250-135777-0085
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:53:57,888 ERROR task2_backend.domains.media.services Failed to preprocess media_id=13069-13511-000007
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:53:57,892 ERROR task2_backend.domains.media.services Failed to preprocess media_id=1603-141713-0017
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:53:57,896 ERROR task2_backend.domains.media.services Failed to preprocess media_id=1756-134819-0020
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:53:57,900 ERROR task2_backend.domains.media.services Failed to preprocess media_id=2494-156014-0003
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:53:57,902 ERROR task2_backend.domains.media.services Failed to preprocess media_id=2581-157858-0019
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:53:57,905 ERROR task2_backend.domains.media.services Failed to preprocess media_id=3557-8342-0007
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:53:57,908 ERROR task2_backend.domains.media.services Failed to preprocess media_id=3982-178459-0065
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:53:57,912 ERROR task2_backend.domains.media.services Failed to preprocess media_id=8531-282933-0044
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,805 ERROR task2_backend.domains.media.services Failed to preprocess media_id=1226-141268-0001
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,815 ERROR task2_backend.domains.media.services Failed to preprocess media_id=1250-135777-0085
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,822 ERROR task2_backend.domains.media.services Failed to preprocess media_id=13069-13511-000007
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,826 ERROR task2_backend.domains.media.services Failed to preprocess media_id=1603-141713-0017
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,830 ERROR task2_backend.domains.media.services Failed to preprocess media_id=1756-134819-0020
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,833 ERROR task2_backend.domains.media.services Failed to preprocess media_id=2494-156014-0003
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,836 ERROR task2_backend.domains.media.services Failed to preprocess media_id=2581-157858-0019
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,840 ERROR task2_backend.domains.media.services Failed to preprocess media_id=3557-8342-0007
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,843 ERROR task2_backend.domains.media.services Failed to preprocess media_id=3982-178459-0065
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2026-04-20 20:58:51,846 ERROR task2_backend.domains.media.services Failed to preprocess media_id=8531-282933-0044
+Traceback (most recent call last):
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 45, in preprocess_media
+    probe = run_with_retry(
+        "probe_media",
+    ...<6 lines>...
+        ),
+    )
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/retry.py", line 25, in run_with_retry
+    return func()
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/domains/media/services.py", line 49, in <lambda>
+    lambda record=record: probe_media(
+                          ~~~~~~~~~~~^
+        record.source_path,
+        ^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_audio_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.config.media.supported_video_extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/Users/loumac/Downloads/项目代码/interview-claw/task2/backend/src/task2_backend/foundation/media_probe.py", line 36, in probe_media
+    result = subprocess.run(
+        [
+    ...<11 lines>...
+        text=True,
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'

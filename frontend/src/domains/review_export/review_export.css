@@ -1,0 +1,88 @@
+/* --- Review & Export domain styles --- */
+
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+}
+@media (max-width: 900px) {
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.review-task-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  transition: border-color var(--transition-fast);
+}
+.review-task-card:hover {
+  border-color: var(--color-accent-400);
+}
+.review-task-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.review-task-card__id {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-400);
+}
+.review-task-card__annotation {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+.review-task-card__annotation strong {
+  color: var(--color-text-primary);
+}
+.review-task-card__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: auto;
+}
+
+/* Export section */
+.export-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+.export-batches {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.export-batch-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+.export-batch-row__id {
+  font-family: monospace;
+  font-size: var(--font-size-xs);
+  color: var(--color-accent-400);
+  min-width: 180px;
+}
+.export-batch-row__count {
+  color: var(--color-text-secondary);
+}
+.export-batch-row__format {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-glass);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+}

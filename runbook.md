@@ -1,0 +1,70 @@
+# Task2 Runbook
+
+## Operational Goal
+
+The system must run without manual intervention for at least 24 hours while maintaining correct state, retry behavior, and recoverability.
+
+## Core Operational Loop
+
+1. scan configured input directories
+2. register new media idempotently
+3. preprocess media and persist results
+4. expose ready tasks to annotators
+5. autosave active annotations
+6. review completed annotations
+7. export reviewed results
+8. monitor logs, failures, and stale locks
+
+## Stability Requirements
+
+- every background action writes durable state before acknowledging completion
+- every retryable failure increments a persisted retry counter
+- every terminal failure writes a durable error record
+- every long-running step logs start, success, retry, and failure events
+
+## Retry Handling
+
+- retryable failures use the centralized retry helper in `foundation`
+- retries are exponential with capped delay
+- terminal failures move the record into an explicit failed state or failure log table
+- operations must never spin indefinitely
+
+## Recovery Procedures
+
+### Service Restart
+
+- reload configuration
+- reopen database
+- scan for unfinished background jobs
+- reclaim expired task locks
+- resume retryable jobs that have not exceeded max attempts
+
+### Stale Task Locks
+
+- detect locks whose expiry is in the past
+- mark them as abandoned
+- either return them to `READY` or place them in a recovery queue according to policy
+- write an audit event
+
+### Export Recovery
+
+- if an export batch is partially written, the batch record remains non-final
+- rerun only unfinished outputs
+- finalized outputs must be immutable and versioned
+
+## Minimum Observability
+
+- structured application logs
+- error logs with exception category and entity id
+- counters for media by status
+- counters for tasks by status
+- failure counts by category
+- retry counts by operation
+- stale lock count
+
+## Manual Checks
+
+- verify worker queue is draining
+- verify no task remains locked past timeout without heartbeat updates
+- verify export batches match reviewed task counts
+- verify repeated scans do not create duplicate records
