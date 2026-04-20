@@ -23,7 +23,7 @@
 6. 支持 submit、review 与 export
 7. 以 `json` 或 `jsonl` 输出结构化结果
 
-当前分支会将“预处理”从元数据探测升级为标准化流水线：为标注工作台生成可播放的 normalized asset，并按配置生成 waveform 与 poster 等辅助资产。
+当前版本已将“预处理”从元数据探测升级为标准化流水线：为标注工作台生成可播放的 normalized asset，并按配置生成 waveform 与 poster 等辅助资产。
 
 ## 3. 仓库结构
 
