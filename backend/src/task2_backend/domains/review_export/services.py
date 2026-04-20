@@ -9,13 +9,20 @@ from task2_backend.common.time import isoformat, now_utc
 from task2_backend.domains.review_export.repository import ReviewExportRepository
 from task2_backend.domains.review_export.schemas import ExportRequest, ExportResponse, ReviewRequest, ReviewResponse
 from task2_backend.foundation.config import AppConfig
+from task2_backend.foundation.operations import OperationsService
 from task2_backend.foundation.retry import run_with_retry
 
 
 class ReviewExportService:
-    def __init__(self, config: AppConfig, repository: ReviewExportRepository):
+    def __init__(
+        self,
+        config: AppConfig,
+        repository: ReviewExportRepository,
+        operations_service: OperationsService | None = None,
+    ):
         self.config = config
         self.repository = repository
+        self.operations_service = operations_service
 
     def review_task(self, task_id: str, payload: ReviewRequest) -> ReviewResponse:
         reviewed_at = isoformat(now_utc())
@@ -29,29 +36,27 @@ class ReviewExportService:
 
     def export_reviews(self, request: ExportRequest) -> ExportResponse:
         formats = request.formats or list(self.config.export.formats)
-        created_at = isoformat(now_utc())
-        rows = self.repository.get_export_rows()
-        records = [self._serialize_row(row) for row in rows]
+        try:
+            response = self._export_reviews(formats)
+        except Exception as exc:
+            if self.operations_service is not None:
+                self.operations_service.record_job_failure(
+                    "export_reviewed_batch",
+                    "reviewed_batch_export",
+                    exc,
+                    payload={"formats": formats},
+                )
+            raise
+        if self.operations_service is not None:
+            self.operations_service.resolve_job_failure("export_reviewed_batch", "reviewed_batch_export")
+        return response
 
-        output_paths: list[str] = []
-        for fmt in formats:
-            output_path = self.config.paths.export_dir / f"export_{created_at.replace(':', '-')}.{fmt}"
-            run_with_retry(
-                "write_export",
-                output_path.name,
-                self.config.retry,
-                lambda output_path=output_path, fmt=fmt, records=records: self._write_export(output_path, fmt, records),
-            )
-            output_paths.append(str(output_path))
-
-        batch = self.repository.create_export_batch(formats, output_paths, created_at)
-        return ExportResponse(
-            batch_id=batch.batch_id,
-            status=batch.status,
-            formats=formats,
-            output_paths=output_paths,
-            created_at=created_at,
-        )
+    def replay_export_failure(self, payload: dict[str, object]) -> None:
+        raw_formats = payload.get("formats", list(self.config.export.formats))
+        formats = [str(item) for item in raw_formats] if isinstance(raw_formats, list) else list(self.config.export.formats)
+        self._export_reviews(formats)
+        if self.operations_service is not None:
+            self.operations_service.resolve_job_failure("export_reviewed_batch", "reviewed_batch_export")
 
     def get_export_batch(self, batch_id: str) -> ExportResponse:
         batch = self.repository.get_export_batch(batch_id)
@@ -80,6 +85,31 @@ class ReviewExportService:
             raise ExportWriteError(f"Unsupported export format: {fmt}", entity_id=fmt)
         except OSError as exc:
             raise ExportWriteError(f"Failed to write export: {path}") from exc
+
+    def _export_reviews(self, formats: list[str]) -> ExportResponse:
+        created_at = isoformat(now_utc())
+        rows = self.repository.get_export_rows()
+        records = [self._serialize_row(row) for row in rows]
+
+        output_paths: list[str] = []
+        for fmt in formats:
+            output_path = self.config.paths.export_dir / f"export_{created_at.replace(':', '-')}.{fmt}"
+            run_with_retry(
+                "write_export",
+                output_path.name,
+                self.config.retry,
+                lambda output_path=output_path, fmt=fmt, records=records: self._write_export(output_path, fmt, records),
+            )
+            output_paths.append(str(output_path))
+
+        batch = self.repository.create_export_batch(formats, output_paths, created_at)
+        return ExportResponse(
+            batch_id=batch.batch_id,
+            status=batch.status,
+            formats=formats,
+            output_paths=output_paths,
+            created_at=created_at,
+        )
 
     @staticmethod
     def _serialize_row(row) -> dict[str, object]:

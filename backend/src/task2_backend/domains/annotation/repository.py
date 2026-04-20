@@ -259,6 +259,42 @@ class AnnotationRepository:
                 [TaskStatus.READY.value, now_iso, task_id],
             )
 
+    def reclaim_expired_tasks(self, now_iso: str) -> list[str]:
+        with self.database.connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT task_id
+                FROM annotation_tasks
+                WHERE status = ? AND lock_expires_at IS NOT NULL AND lock_expires_at < ?
+                ORDER BY created_at ASC
+                """,
+                [TaskStatus.IN_PROGRESS.value, now_iso],
+            ).fetchall()
+            task_ids = [str(row["task_id"]) for row in rows]
+            for task_id in task_ids:
+                connection.execute(
+                    """
+                    UPDATE annotation_tasks
+                    SET status = ?, assigned_to = NULL, lock_owner = NULL, lock_acquired_at = NULL, lock_expires_at = NULL, updated_at = ?
+                    WHERE task_id = ?
+                    """,
+                    [TaskStatus.READY.value, now_iso, task_id],
+                )
+                connection.execute(
+                    """
+                    INSERT INTO audit_logs (entity_type, entity_id, action, payload, created_at)
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                    [
+                        "annotation_task",
+                        task_id,
+                        "lock_reclaimed",
+                        json.dumps({"recovered_at": now_iso}, ensure_ascii=False),
+                        now_iso,
+                    ],
+                )
+        return task_ids
+
     def get_latest_annotation(self, task_id: str, is_draft: bool | None = None) -> sqlite3.Row | None:
         clause = ""
         params: list[object] = [task_id]

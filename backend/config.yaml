@@ -9,6 +9,7 @@ paths:
 runtime:
   mode: local
   worker_enabled: true
+  maintenance_interval_seconds: 30
   max_concurrent_jobs: 2
   shutdown_grace_seconds: 30
 

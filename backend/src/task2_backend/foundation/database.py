@@ -89,7 +89,22 @@ CREATE TABLE IF NOT EXISTS job_failures (
     failure_code TEXT NOT NULL,
     message TEXT NOT NULL,
     retry_count INTEGER NOT NULL,
+    max_attempts INTEGER NOT NULL DEFAULT 3,
+    status TEXT NOT NULL DEFAULT 'pending',
+    next_retry_at TEXT,
+    payload_json TEXT NOT NULL DEFAULT '{}',
+    updated_at TEXT NOT NULL DEFAULT '',
+    resolved_at TEXT,
     created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS maintenance_runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    status TEXT NOT NULL,
+    started_at TEXT NOT NULL,
+    finished_at TEXT,
+    summary_json TEXT NOT NULL DEFAULT '{}',
+    error_message TEXT
 );
 """
 
@@ -120,3 +135,16 @@ class Database:
     def init_schema(self) -> None:
         with self.connect() as connection:
             connection.executescript(SCHEMA)
+            self._ensure_column(connection, "job_failures", "max_attempts", "INTEGER NOT NULL DEFAULT 3")
+            self._ensure_column(connection, "job_failures", "status", "TEXT NOT NULL DEFAULT 'pending'")
+            self._ensure_column(connection, "job_failures", "next_retry_at", "TEXT")
+            self._ensure_column(connection, "job_failures", "payload_json", "TEXT NOT NULL DEFAULT '{}'")
+            self._ensure_column(connection, "job_failures", "updated_at", "TEXT NOT NULL DEFAULT ''")
+            self._ensure_column(connection, "job_failures", "resolved_at", "TEXT")
+
+    @staticmethod
+    def _ensure_column(connection: sqlite3.Connection, table_name: str, column_name: str, definition: str) -> None:
+        rows = connection.execute(f"PRAGMA table_info({table_name})").fetchall()
+        if any(row["name"] == column_name for row in rows):
+            return
+        connection.execute(f"ALTER TABLE {table_name} ADD COLUMN {column_name} {definition}")

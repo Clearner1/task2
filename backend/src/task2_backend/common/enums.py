@@ -25,3 +25,15 @@ class ReviewDecision(str, Enum):
 class ExportStatus(str, Enum):
     SUCCESS = "success"
     FAILED = "failed"
+
+
+class JobFailureStatus(str, Enum):
+    PENDING = "pending"
+    RESOLVED = "resolved"
+    TERMINAL = "terminal"
+
+
+class MaintenanceRunStatus(str, Enum):
+    RUNNING = "running"
+    SUCCESS = "success"
+    FAILED = "failed"
