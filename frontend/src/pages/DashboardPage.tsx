@@ -41,13 +41,23 @@ export function DashboardPage() {
     <div className="animate-fade-in">
       <div className="page-header">
         <h2>Dashboard</h2>
-        <p>Sentiment annotation pipeline overview</p>
+        <p>Operational overview of ingestion, normalization, annotation, review, and export.</p>
       </div>
 
       <div className="dashboard-grid">
+        <div className="stat-card stat-card--hero">
+          <span className="stat-card__eyebrow">Task2 Control Room</span>
+          <div className="stat-card__headline">
+            <span>Human review stays central.</span>
+            <span>The pipeline stays disciplined.</span>
+          </div>
+          <div className="stat-card__copy">
+            Import source media, normalize it into workbench-ready assets, then move each task through annotation, review, and export with visible state changes.
+          </div>
+        </div>
         <div className="stat-card">
           <span className="stat-card__value">{totalMedia}</span>
-          <span className="stat-card__label">Total Media Files</span>
+          <span className="stat-card__label">Media In Archive</span>
         </div>
         {stats.map((s) => (
           <div key={s.status} className={`stat-card ${s.cardClass}`}>
@@ -57,15 +67,38 @@ export function DashboardPage() {
         ))}
       </div>
 
-      <Card title="Quick Start">
-        <ol style={{ color: 'var(--color-text-secondary)', lineHeight: 2, paddingLeft: 'var(--space-lg)' }}>
-          <li>Go to <strong>Media</strong> → Scan & Import audio/video files</li>
-          <li>Click <strong>Preprocess</strong> to normalize imported media</li>
-          <li>Go to <strong>Annotate</strong> → Get next task → Label emotions</li>
-          <li>Go to <strong>Review</strong> → Approve or reject submissions</li>
-          <li>Go to <strong>Export</strong> → Export approved annotations as JSON/JSONL</li>
-        </ol>
-      </Card>
+      <div className="dashboard-notes">
+        <Card title="Workflow Cadence">
+          <ol className="quick-start-list">
+            <li>Go to <strong>Media</strong> and import raw audio or video from the configured ingest directory.</li>
+            <li>Run <strong>Preprocess</strong> to generate normalized playable assets and support files.</li>
+            <li>Open <strong>Annotate</strong> to pull the next ready task and record emotion labels.</li>
+            <li>Use <strong>Review</strong> as the quality gate before release.</li>
+            <li>Finalize in <strong>Export</strong> with JSON or JSONL output.</li>
+          </ol>
+        </Card>
+
+        <Card title="Operational Notes">
+          <div className="ops-list">
+            <div className="ops-list__row">
+              <span className="ops-list__label">Playback Source</span>
+              <span className="ops-list__value">Normalized asset first</span>
+            </div>
+            <div className="ops-list__row">
+              <span className="ops-list__label">Task Ownership</span>
+              <span className="ops-list__value">Lease + heartbeat</span>
+            </div>
+            <div className="ops-list__row">
+              <span className="ops-list__label">Review Policy</span>
+              <span className="ops-list__value">Approve before export</span>
+            </div>
+            <div className="ops-list__row">
+              <span className="ops-list__label">Runtime Target</span>
+              <span className="ops-list__value">24h unattended</span>
+            </div>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }

@@ -12,17 +12,19 @@
 }
 
 .review-task-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-bg-elevated);
+  border: 1px solid rgba(73, 56, 38, 0.1);
+  border-radius: 22px;
+  background: rgba(251, 248, 242, 0.82);
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  transition: border-color var(--transition-fast);
+  transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 .review-task-card:hover {
-  border-color: var(--color-accent-400);
+  border-color: rgba(201, 128, 52, 0.24);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 .review-task-card__header {
   display: flex;
@@ -30,7 +32,7 @@
   align-items: center;
 }
 .review-task-card__id {
-  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-family: var(--font-family-mono);
   font-size: var(--font-size-sm);
   color: var(--color-accent-400);
 }
@@ -64,13 +66,13 @@
   align-items: center;
   gap: var(--space-md);
   padding: var(--space-md);
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(73, 56, 38, 0.1);
+  border-radius: 18px;
   font-size: var(--font-size-sm);
 }
 .export-batch-row__id {
-  font-family: monospace;
+  font-family: var(--font-family-mono);
   font-size: var(--font-size-xs);
   color: var(--color-accent-400);
   min-width: 180px;
@@ -80,8 +82,8 @@
 }
 .export-batch-row__format {
   padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  background: var(--color-bg-glass);
+  border-radius: 999px;
+  background: rgba(201, 128, 52, 0.1);
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
   text-transform: uppercase;

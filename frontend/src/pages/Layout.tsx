@@ -2,12 +2,12 @@ import { NavLink, Outlet } from 'react-router-dom';
 import './pages.css';
 
 const NAV_ITEMS = [
-  { to: '/', icon: '◈', label: 'Dashboard' },
-  { to: '/media', icon: '♫', label: 'Media' },
-  { to: '/tasks', icon: '☰', label: 'Tasks' },
-  { to: '/annotate', icon: '✎', label: 'Annotate' },
-  { to: '/review', icon: '✓', label: 'Review' },
-  { to: '/export', icon: '↗', label: 'Export' },
+  { to: '/', icon: '◈', label: 'Dashboard', hint: 'System pulse' },
+  { to: '/media', icon: '♫', label: 'Media', hint: 'Ingest and normalize' },
+  { to: '/tasks', icon: '☰', label: 'Tasks', hint: 'Queue and filters' },
+  { to: '/annotate', icon: '✎', label: 'Annotate', hint: 'Workbench' },
+  { to: '/review', icon: '✓', label: 'Review', hint: 'Quality gate' },
+  { to: '/export', icon: '↗', label: 'Export', hint: 'Release JSON' },
 ];
 
 export function Layout() {
@@ -15,8 +15,9 @@ export function Layout() {
     <div className="app-layout">
       <aside className="sidebar">
         <div className="sidebar__brand">
+          <span className="sidebar__brand-kicker">Emotion Lab Console</span>
           <h1>Task2</h1>
-          <p>Sentiment Annotation</p>
+          <p>Human-in-the-loop annotation workspace for normalized audio and video review.</p>
         </div>
         <nav className="sidebar__nav">
           {NAV_ITEMS.map((item) => (
@@ -30,13 +31,22 @@ export function Layout() {
               id={`nav-${item.label.toLowerCase()}`}
             >
               <span className="sidebar__link-icon">{item.icon}</span>
-              {item.label}
+              <span className="sidebar__link-copy">
+                <span className="sidebar__link-label">{item.label}</span>
+                <span className="sidebar__link-hint">{item.hint}</span>
+              </span>
             </NavLink>
           ))}
         </nav>
+        <div className="sidebar__footer">
+          <span>24h-ready runtime</span>
+          <span>Review before export</span>
+        </div>
       </aside>
       <main className="main-content">
-        <Outlet />
+        <div className="content-shell">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
