@@ -31,6 +31,7 @@ class RuntimeConfig:
 @dataclass(frozen=True)
 class AnnotationConfig:
     autosave_interval_seconds: int
+    heartbeat_interval_seconds: int
     task_lock_timeout_seconds: int
     allowed_primary_labels: tuple[str, ...]
     enable_secondary_labels: bool
@@ -126,6 +127,7 @@ def load_config(config_path: str | None = None) -> AppConfig:
         ),
         annotation=AnnotationConfig(
             autosave_interval_seconds=int(_require(annotation, "autosave_interval_seconds")),
+            heartbeat_interval_seconds=int(_require(annotation, "heartbeat_interval_seconds")),
             task_lock_timeout_seconds=int(_require(annotation, "task_lock_timeout_seconds")),
             allowed_primary_labels=tuple(str(item) for item in _require(annotation, "allowed_primary_labels")),
             enable_secondary_labels=bool(_require(annotation, "enable_secondary_labels")),

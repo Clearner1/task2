@@ -66,7 +66,12 @@ class AnnotationService:
         if row is None:
             raise NotFoundError(f"Task not found: {task_id}", entity_id=task_id)
         latest_draft_row = self.repository.get_latest_annotation(task_id, is_draft=True)
+        latest_annotation_row = self.repository.get_latest_annotation(task_id)
         latest_draft = self._build_annotation_view(latest_draft_row) if latest_draft_row else None
+        latest_annotation = self._build_annotation_view(latest_annotation_row) if latest_annotation_row else None
+        compat_latest_draft = latest_draft or latest_annotation
+        if row["status"] in {"SUBMITTED", "REVIEWED", "EXPORTED"}:
+            compat_latest_draft = latest_annotation
         return TaskDetail(
             task=TaskItem(
                 task_id=row["task_id"],
@@ -92,7 +97,8 @@ class AnnotationService:
                 created_at=row["media_created_at"],
                 updated_at=row["media_updated_at"],
             ),
-            latest_draft=latest_draft,
+            latest_draft=compat_latest_draft,
+            latest_annotation=latest_annotation,
         )
 
     def autosave(self, task_id: str, annotator_id: str, annotation: AnnotationPayload) -> TaskDetail:
@@ -112,6 +118,19 @@ class AnnotationService:
         )
         return self.get_task_detail(task_id)
 
+    def heartbeat(self, task_id: str, annotator_id: str) -> TaskDetail:
+        task = self.repository.get_task(task_id)
+        if task is None:
+            raise NotFoundError(f"Task not found: {task_id}", entity_id=task_id)
+        now = now_utc()
+        self.repository.heartbeat_task(
+            task_id,
+            annotator_id,
+            isoformat(now + timedelta(seconds=self.config.annotation.task_lock_timeout_seconds)),
+            isoformat(now),
+        )
+        return self.get_task_detail(task_id)
+
     def submit(self, task_id: str, annotator_id: str, annotation: AnnotationPayload) -> TaskDetail:
         task = self.repository.get_task(task_id)
         if task is None:
@@ -126,6 +145,13 @@ class AnnotationService:
             isoformat(now_utc()),
             None,
         )
+        return self.get_task_detail(task_id)
+
+    def release(self, task_id: str, annotator_id: str) -> TaskDetail:
+        task = self.repository.get_task(task_id)
+        if task is None:
+            raise NotFoundError(f"Task not found: {task_id}", entity_id=task_id)
+        self.repository.release_task(task_id, annotator_id, isoformat(now_utc()))
         return self.get_task_detail(task_id)
 
     def _validate_annotation(self, annotation: AnnotationPayload) -> dict[str, object]:

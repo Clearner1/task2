@@ -34,6 +34,7 @@ runtime:
   shutdown_grace_seconds: 5
 annotation:
   autosave_interval_seconds: 15
+  heartbeat_interval_seconds: 15
   task_lock_timeout_seconds: 300
   allowed_primary_labels: [neutral, happy]
   enable_secondary_labels: true

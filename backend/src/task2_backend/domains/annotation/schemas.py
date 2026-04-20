@@ -25,6 +25,11 @@ class SubmitRequest(BaseModel):
     annotation: AnnotationPayload
 
 
+class TaskLeaseRequest(BaseModel):
+    annotator_id: str
+    reason: str | None = None
+
+
 class AnnotationView(BaseModel):
     annotation_id: str
     task_id: str
@@ -67,6 +72,7 @@ class TaskDetail(BaseModel):
     task: TaskItem
     media: TaskMediaItem
     latest_draft: AnnotationView | None = None
+    latest_annotation: AnnotationView | None = None
 
 
 class TaskListResponse(BaseModel):

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 
 from task2_backend.api.dependencies import get_annotation_service
 from task2_backend.common.exceptions import NotFoundError
-from task2_backend.domains.annotation.schemas import AutosaveRequest, SubmitRequest, TaskDetail, TaskListResponse
+from task2_backend.domains.annotation.schemas import AutosaveRequest, SubmitRequest, TaskDetail, TaskLeaseRequest, TaskListResponse
 from task2_backend.domains.annotation.services import AnnotationService
 
 router = APIRouter(prefix="/api/tasks", tags=["tasks"])
@@ -55,5 +55,29 @@ def submit_task(
 ) -> TaskDetail:
     try:
         return service.submit(task_id, payload.annotator_id, payload.annotation)
+    except NotFoundError as exc:
+        raise HTTPException(status_code=404, detail=exc.message) from exc
+
+
+@router.post("/{task_id}/heartbeat", response_model=TaskDetail)
+def heartbeat_task(
+    task_id: str,
+    payload: TaskLeaseRequest,
+    service: AnnotationService = Depends(get_annotation_service),
+) -> TaskDetail:
+    try:
+        return service.heartbeat(task_id, payload.annotator_id)
+    except NotFoundError as exc:
+        raise HTTPException(status_code=404, detail=exc.message) from exc
+
+
+@router.post("/{task_id}/release", response_model=TaskDetail)
+def release_task(
+    task_id: str,
+    payload: TaskLeaseRequest,
+    service: AnnotationService = Depends(get_annotation_service),
+) -> TaskDetail:
+    try:
+        return service.release(task_id, payload.annotator_id)
     except NotFoundError as exc:
         raise HTTPException(status_code=404, detail=exc.message) from exc

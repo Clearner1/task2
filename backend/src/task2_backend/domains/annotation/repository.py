@@ -6,6 +6,7 @@ import sqlite3
 from uuid import uuid4
 
 from task2_backend.common.enums import TaskStatus
+from task2_backend.common.exceptions import TaskLockError
 from task2_backend.domains.annotation.models import TaskRecord
 from task2_backend.foundation.database import Database
 
@@ -214,6 +215,48 @@ class AnnotationRepository:
                     now_iso,
                     task_id,
                 ],
+            )
+
+    def heartbeat_task(self, task_id: str, annotator_id: str, lock_expires_at: str, now_iso: str) -> None:
+        with self.database.connect() as connection:
+            row = connection.execute(
+                "SELECT status, lock_owner FROM annotation_tasks WHERE task_id = ?",
+                [task_id],
+            ).fetchone()
+            if row is None:
+                return
+            if row["status"] != TaskStatus.IN_PROGRESS.value:
+                return
+            if row["lock_owner"] not in (None, annotator_id):
+                raise TaskLockError("Task is locked by another annotator.", entity_id=task_id)
+            connection.execute(
+                """
+                UPDATE annotation_tasks
+                SET lock_owner = ?, assigned_to = ?, lock_acquired_at = ?, lock_expires_at = ?, updated_at = ?
+                WHERE task_id = ?
+                """,
+                [annotator_id, annotator_id, now_iso, lock_expires_at, now_iso, task_id],
+            )
+
+    def release_task(self, task_id: str, annotator_id: str, now_iso: str) -> None:
+        with self.database.connect() as connection:
+            row = connection.execute(
+                "SELECT status, lock_owner FROM annotation_tasks WHERE task_id = ?",
+                [task_id],
+            ).fetchone()
+            if row is None:
+                return
+            if row["status"] != TaskStatus.IN_PROGRESS.value:
+                return
+            if row["lock_owner"] not in (None, annotator_id):
+                raise TaskLockError("Task is locked by another annotator.", entity_id=task_id)
+            connection.execute(
+                """
+                UPDATE annotation_tasks
+                SET status = ?, assigned_to = NULL, lock_owner = NULL, lock_acquired_at = NULL, lock_expires_at = NULL, updated_at = ?
+                WHERE task_id = ?
+                """,
+                [TaskStatus.READY.value, now_iso, task_id],
             )
 
     def get_latest_annotation(self, task_id: str, is_draft: bool | None = None) -> sqlite3.Row | None:
