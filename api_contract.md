@@ -86,9 +86,13 @@ Rules:
 - `GET /api/tasks/next`
   - returns the next available task and acquires a lock
 - `GET /api/tasks/{task_id}`
-  - returns task details, media references, and latest draft
+  - returns task details, media references, latest draft view, and latest annotation view
 - `POST /api/tasks/{task_id}/autosave`
   - saves draft annotation state and refreshes lock heartbeat
+- `POST /api/tasks/{task_id}/heartbeat`
+  - refreshes the task lease without writing a new draft annotation
+- `POST /api/tasks/{task_id}/release`
+  - explicitly releases an in-progress task back to `READY`
 - `POST /api/tasks/{task_id}/submit`
   - validates and submits the final annotation payload
 
@@ -121,6 +125,25 @@ Rules:
 - `secondary_emotions` are optional
 - `intensity` and `confidence` use bounded numeric scales
 - `valence` and `arousal` are enabled only when configured
+
+## Task Detail Contract
+
+`GET /api/tasks/{task_id}` and `GET /api/tasks/next` return:
+
+```json
+{
+  "task": {},
+  "media": {},
+  "latest_draft": null,
+  "latest_annotation": null
+}
+```
+
+Rules:
+
+- `latest_annotation` is the latest persisted annotation for the task, regardless of draft or final state
+- `latest_draft` is kept for backward compatibility with current frontend consumers
+- after final submit, clients should prefer `latest_annotation`
 
 ## Export Contract
 

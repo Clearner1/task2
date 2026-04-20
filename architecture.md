@@ -172,6 +172,7 @@ Backend configuration must include at least:
 - retry base delay
 - retry max delay
 - autosave interval seconds
+- heartbeat interval seconds
 - task lock timeout seconds
 - media target audio sample rate
 - media target format
@@ -288,13 +289,17 @@ Task lock policy:
 
 - task locks are persisted with owner, acquisition timestamp, and expiry timestamp
 - expired `IN_PROGRESS` locks are reclaimable
-- autosave keeps active locks fresh
+- heartbeat keeps active locks fresh even when no draft fields changed
+- autosave refreshes the active lease when draft content changes
+- explicit release moves abandoned in-progress tasks back to `READY`
 - abandoned tasks return to `READY` or a recovery queue based on configured timeout policy
 
 ### `autosave-lock-timeout`
 
 - autosave interval and task lock timeout are configuration-owned values
 - autosave refresh extends the active task lock before expiry
+- heartbeat extends active task locks without creating extra draft rows
+- release clears lock ownership and returns the task to `READY`
 - timeout expiration triggers lock recovery, audit logging, and task requeue or recovery handling
 
 ## Testing Strategy

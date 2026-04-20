@@ -10,7 +10,7 @@ The system must run without manual intervention for at least 24 hours while main
 2. register new media idempotently
 3. preprocess media and persist results
 4. expose ready tasks to annotators
-5. autosave active annotations
+5. heartbeat active task leases and autosave dirty annotations
 6. review completed annotations
 7. export reviewed results
 8. monitor logs, failures, and stale locks
@@ -45,6 +45,12 @@ The system must run without manual intervention for at least 24 hours while main
 - mark them as abandoned
 - either return them to `READY` or place them in a recovery queue according to policy
 - write an audit event
+
+### Active Task Lease
+
+- active workbenches send periodic heartbeat requests to extend task leases
+- autosave is for draft persistence and also refreshes the active lease when draft data changes
+- explicit release is required when users skip a task, navigate away, or abandon the current workbench
 
 ### Export Recovery
 

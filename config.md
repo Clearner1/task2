@@ -34,6 +34,7 @@ The resolved configuration must be validated once during application startup.
 ### Annotation
 
 - `annotation.autosave_interval_seconds`
+- `annotation.heartbeat_interval_seconds`
 - `annotation.task_lock_timeout_seconds`
 - `annotation.allowed_primary_labels`
 - `annotation.enable_secondary_labels`
@@ -87,6 +88,7 @@ runtime:
 
 annotation:
   autosave_interval_seconds: 15
+  heartbeat_interval_seconds: 15
   task_lock_timeout_seconds: 300
   allowed_primary_labels: [neutral, happy, sad, angry, fear, surprise, disgust, other]
   enable_secondary_labels: true
