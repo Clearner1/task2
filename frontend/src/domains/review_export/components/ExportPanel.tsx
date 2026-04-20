@@ -27,7 +27,7 @@ export function ExportPanel({ batches, loading, onExportJson, onExportJsonl }: E
         }
       >
         {batches.length === 0 ? (
-          <EmptyState icon="📦" title="No exports yet" description="Review annotations first, then export" />
+          <EmptyState title="No exports yet" description="Review annotations first, then export" />
         ) : (
           <div className="export-batches">
             {batches.map((b) => (

@@ -8,9 +8,12 @@ export function AnnotationPage() {
     annotation,
     loading,
     saving,
+    dirty,
     error,
     fetchNext,
+    heartbeat,
     autosave,
+    skip,
     submit,
     updateAnnotation,
   } = useAnnotationWorkbench();
@@ -39,9 +42,12 @@ export function AnnotationPage() {
         annotation={annotation}
         loading={loading}
         saving={saving}
+        dirty={dirty}
         error={error}
         onFetchNext={fetchNext}
+        onHeartbeat={heartbeat}
         onAutosave={autosave}
+        onSkip={skip}
         onSubmit={handleSubmit}
         onUpdateAnnotation={updateAnnotation}
       />

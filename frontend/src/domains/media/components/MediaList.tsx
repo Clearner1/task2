@@ -14,7 +14,7 @@ interface MediaListProps {
 export function MediaList({ data, loading, page, onPageChange }: MediaListProps) {
   if (loading && !data) return <Spinner />;
   if (!data || data.items.length === 0) {
-    return <EmptyState icon="🎵" title="No media files" description="Import media to get started" />;
+    return <EmptyState title="No media files" description="Import media to get started" />;
   }
 
   return (

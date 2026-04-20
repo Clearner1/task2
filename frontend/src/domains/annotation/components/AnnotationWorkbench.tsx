@@ -13,30 +13,38 @@ interface AnnotationWorkbenchProps {
   annotation: AnnotationPayload;
   loading: boolean;
   saving: boolean;
+  dirty: boolean;
   error: string | null;
   onFetchNext: () => void;
+  onHeartbeat: () => void;
   onAutosave: () => void;
+  onSkip: () => void;
   onSubmit: () => void;
   onUpdateAnnotation: (partial: Partial<AnnotationPayload>) => void;
 }
 
 const AUTOSAVE_INTERVAL = 15_000; // 15s from config
+const HEARTBEAT_INTERVAL = 15_000; // 15s from config
 
 export function AnnotationWorkbench({
   task,
   annotation,
   loading,
   saving,
+  dirty,
   error,
   onFetchNext,
+  onHeartbeat,
   onAutosave,
+  onSkip,
   onSubmit,
   onUpdateAnnotation,
 }: AnnotationWorkbenchProps) {
   const api = useApi();
 
   // Autosave while task is active
-  useAutosave(onAutosave, AUTOSAVE_INTERVAL, !!task);
+  useAutosave(onAutosave, AUTOSAVE_INTERVAL, !!task && dirty);
+  useAutosave(onHeartbeat, HEARTBEAT_INTERVAL, !!task);
 
   if (loading) return <Spinner />;
 
@@ -44,7 +52,6 @@ export function AnnotationWorkbench({
     return (
       <div className="workbench-empty">
         <EmptyState
-          icon="🎧"
           title={error || 'Ready to annotate'}
           description={error ? 'Try again or check the task list' : 'Click below to get the next available task'}
         />
@@ -56,7 +63,7 @@ export function AnnotationWorkbench({
   }
 
   const mediaUrl = api.getMediaStreamUrl(task.media_id);
-  const mediaType = task.media?.media_type ?? 'audio';
+  const mediaType = task.media?.media_type === 'video' ? 'video' : 'audio';
 
   return (
     <div className="workbench">
@@ -85,7 +92,7 @@ export function AnnotationWorkbench({
         {/* Autosave indicator */}
         <div className="autosave-indicator">
           <span className={`autosave-dot ${saving ? 'autosave-dot--saving' : ''}`} />
-          {saving ? 'Saving draft...' : 'Autosave active'}
+          {saving ? 'Saving draft...' : dirty ? 'Unsaved changes will autosave' : 'Heartbeat active'}
         </div>
       </div>
 
@@ -94,7 +101,7 @@ export function AnnotationWorkbench({
         title="Annotation"
         footer={
           <div className="workbench__actions" style={{ width: '100%' }}>
-            <Button variant="secondary" onClick={onFetchNext} id="btn-skip-task">
+            <Button variant="secondary" onClick={onSkip} id="btn-skip-task">
               Skip
             </Button>
             <Button

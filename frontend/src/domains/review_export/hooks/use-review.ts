@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react';
 import { useApi } from '@foundation/providers/ApiProvider';
-import type { TaskItem, PaginatedResponse } from '@foundation/types';
+import type { AnnotationTask, PaginatedResponse } from '@foundation/types';
 
 export function useReview() {
   const api = useApi();
-  const [submittedTasks, setSubmittedTasks] = useState<PaginatedResponse<TaskItem> | null>(null);
+  const [submittedTasks, setSubmittedTasks] = useState<PaginatedResponse<AnnotationTask> | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,7 +14,16 @@ export function useReview() {
       setError(null);
       try {
         const result = await api.listTasks({ ...params, status: 'SUBMITTED' });
-        setSubmittedTasks(result);
+        const detailedItems = await Promise.all(
+          result.items.map(async (item) => {
+            try {
+              return await api.getTask(item.task_id);
+            } catch {
+              return { ...item, media: undefined, draft: null } as unknown as AnnotationTask;
+            }
+          })
+        );
+        setSubmittedTasks({ ...result, items: detailedItems });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load submitted tasks');
       } finally {

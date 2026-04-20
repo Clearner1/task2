@@ -51,7 +51,7 @@ export function AnnotationForm({ value, onChange }: AnnotationFormProps) {
       <Slider
         id="slider-valence"
         label="Valence"
-        value={value.valence}
+        value={value.valence ?? 0}
         min={-1}
         max={1}
         step={0.1}
@@ -62,7 +62,7 @@ export function AnnotationForm({ value, onChange }: AnnotationFormProps) {
       <Slider
         id="slider-arousal"
         label="Arousal"
-        value={value.arousal}
+        value={value.arousal ?? 3}
         min={1}
         max={5}
         onChange={(v) => onChange({ arousal: v })}

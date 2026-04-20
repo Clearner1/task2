@@ -86,6 +86,7 @@ export interface TaskDetail {
   task: TaskItem;
   media: MediaRecord;
   latest_draft: AnnotationView | null;
+  latest_annotation: AnnotationView | null;
 }
 
 /** Flattened task for UI consumption (used by domain hooks) */
@@ -112,7 +113,7 @@ export function flattenTaskDetail(detail: TaskDetail): AnnotationTask {
     created_at: detail.task.created_at,
     updated_at: detail.task.updated_at,
     media: detail.media,
-    draft: detail.latest_draft?.annotation ?? null,
+    draft: detail.latest_annotation?.annotation ?? detail.latest_draft?.annotation ?? null,
   };
 }
 
@@ -162,12 +163,12 @@ export function createBlankAnnotation(): AnnotationPayload {
 
 /** Primary emotion options from config.md default */
 export const PRIMARY_EMOTIONS = [
-  { value: 'neutral', label: 'Neutral 😐' },
-  { value: 'happy', label: 'Happy 😊' },
-  { value: 'sad', label: 'Sad 😢' },
-  { value: 'angry', label: 'Angry 😠' },
-  { value: 'fear', label: 'Fear 😨' },
-  { value: 'surprise', label: 'Surprise 😲' },
-  { value: 'disgust', label: 'Disgust 🤢' },
-  { value: 'other', label: 'Other 🤔' },
+  { value: 'neutral', label: 'Neutral' },
+  { value: 'happy', label: 'Happy' },
+  { value: 'sad', label: 'Sad' },
+  { value: 'angry', label: 'Angry' },
+  { value: 'fear', label: 'Fear' },
+  { value: 'surprise', label: 'Surprise' },
+  { value: 'disgust', label: 'Disgust' },
+  { value: 'other', label: 'Other' },
 ] as const;

@@ -43,7 +43,7 @@ export function TaskList({
       {loading && !data ? (
         <Spinner />
       ) : !data || data.items.length === 0 ? (
-        <EmptyState icon="📋" title="No tasks found" description="Import and preprocess media first" />
+        <EmptyState title="No tasks found" description="Import and preprocess media first" />
       ) : (
         <div className="animate-fade-in">
           <table className="task-list-table">

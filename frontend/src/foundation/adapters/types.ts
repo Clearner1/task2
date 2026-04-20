@@ -21,7 +21,9 @@ export interface ApiAdapter {
   listTasks(params: { page?: number; page_size?: number; status?: string; assigned_to?: string }): Promise<PaginatedResponse<TaskItem>>;
   getNextTask(annotatorId?: string): Promise<AnnotationTask>;
   getTask(taskId: string): Promise<AnnotationTask>;
+  heartbeatTask(taskId: string, annotatorId: string): Promise<void>;
   autosaveTask(taskId: string, annotatorId: string, payload: AnnotationPayload): Promise<void>;
+  releaseTask(taskId: string, annotatorId: string, options?: { keepalive?: boolean; reason?: string }): Promise<void>;
   submitTask(taskId: string, annotatorId: string, payload: AnnotationPayload): Promise<void>;
 
   // Review & Export

@@ -4,8 +4,6 @@ import type {
   AnnotationTask,
   AnnotationPayload,
   PaginatedResponse,
-  ReviewDecision,
-  ExportBatch,
   TaskItem,
 } from '../types';
 import { TaskStatus } from '../types';
@@ -159,12 +157,33 @@ export function createMockAdapter(): ApiAdapter {
       } satisfies AnnotationTask;
     },
 
+    async heartbeatTask(taskId, annotatorId) {
+      await delay(75);
+      const t = tasks.find((x) => x.task_id === taskId);
+      if (!t) throw new Error(`Task ${taskId} not found`);
+      t.assigned_to = annotatorId;
+      t.lock_owner = annotatorId;
+      t.lock_expires_at = new Date(Date.now() + 300_000).toISOString();
+    },
+
     async autosaveTask(taskId, _annotatorId, payload) {
       await delay(100);
       const t = tasks.find((x) => x.task_id === taskId);
       if (!t) throw new Error(`Task ${taskId} not found`);
       t._draft = payload;
       t.lock_expires_at = new Date(Date.now() + 300_000).toISOString();
+    },
+
+    async releaseTask(taskId) {
+      await delay(75);
+      const t = tasks.find((x) => x.task_id === taskId);
+      if (!t) throw new Error(`Task ${taskId} not found`);
+      if (t.status === TaskStatus.IN_PROGRESS) {
+        t.status = TaskStatus.READY;
+        t.assigned_to = null;
+        t.lock_owner = null;
+        t.lock_expires_at = null;
+      }
     },
 
     async submitTask(taskId, _annotatorId, payload) {
