@@ -78,7 +78,9 @@
 ## Stability Scenarios
 
 - import the same media twice and confirm idempotent registration
+- preprocess the same media again and confirm normalized output paths stay stable
 - simulate transient media probe failure and confirm retry behavior
+- verify waveform JSON and poster assets are exposed only when generated
 - simulate database lock contention and confirm bounded retry
 - simulate autosave heartbeat extending a task lock
 - simulate stale lock expiry and task recovery

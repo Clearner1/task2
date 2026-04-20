@@ -96,6 +96,7 @@ The first version has exactly three domains on both frontend and backend.
 - detect actual media format and metadata
 - normalize media to supported working formats
 - store source and normalized media references
+- generate auxiliary assets such as waveform data and poster frames when configured
 - emit preprocessing state transitions and failure records
 
 ### `domains/annotation`
@@ -177,7 +178,9 @@ Backend configuration must include at least:
 - heartbeat interval seconds
 - task lock timeout seconds
 - media target audio sample rate
-- media target format
+- media target audio format
+- media target video format
+- media target audio channels
 - supported export format list
 
 Rules:
@@ -287,8 +290,32 @@ Required persisted entities:
 - repeated directory scans must not create duplicate media tasks for the same source asset
 - `media_id` is derived from the source filename stem by default so repeated scans remain stable
 - repeated preprocessing must not create conflicting normalized outputs for an unchanged source asset
+- normalized output paths are deterministic under `workspace/normalized/<media_id>/`
 - repeated submission must follow explicit versioning or replace-last-draft rules; hidden duplicate rows are forbidden
 - repeated export of the same reviewed batch must either reuse the existing batch record or create a new versioned batch intentionally
+
+### `normalized-asset-model`
+
+The media domain owns normalized assets as first-class persisted resources. The first implementation supports these asset kinds:
+
+- `playable`: standardized media used by the annotation workbench player
+- `waveform`: JSON waveform summary used for audio visualization
+- `poster`: still-image preview used for video assets
+
+Rules:
+
+- one media item may own zero or one asset per asset kind in the first implementation
+- the persistence key is `media_id + asset_kind`
+- assets are rewritten in place for deterministic reprocessing; they do not create unbounded duplicates
+- media APIs expose both a primary playable stream URL and the detailed asset metadata
+- annotation playback should prefer the normalized playable asset when available
+
+Normalization rules:
+
+- audio sources normalize to `target_audio_format` with configured sample rate and channel count
+- video sources normalize to `target_video_format` as the playable asset
+- waveform generation is required only for audio sources in the first implementation
+- poster generation is required only for video sources when enabled
 
 ### `24h-operation`
 
@@ -306,6 +333,7 @@ The background maintenance loop is part of the runtime contract, not an optional
 
 - reclaiming expired annotation task locks
 - replaying due retryable jobs from durable storage
+- replaying failed media normalization jobs against deterministic output paths
 - recording a durable maintenance-run row for each cycle
 - emitting operational logs for start, finish, failure, and replay activity
 
